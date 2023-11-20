@@ -17,7 +17,7 @@ cursor.execute("DROP TABLE IF EXISTS days")
 cursor.execute("""
     CREATE TABLE days(
         id SERIAL PRIMARY KEY, 
-        day_number SMALLINT)
+        day_number INTEGER)
     """)
 
 # Create tasks table
@@ -26,7 +26,7 @@ cursor.execute("""
         id SERIAL PRIMARY KEY,
         day_id INTEGER REFERENCES days(id),
         task TEXT,
-        duration SMALLINT
+        duration INTEGER
     )
 """)
 
