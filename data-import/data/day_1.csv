@@ -1,26 +1,26 @@
-Tasks,Duration
+Task,Duration
 Sit for 5 seconds,5
 Sit for 10 seconds,10
-Sit while you take 1 step back and return,3
-Sit while you take 2 steps back and return,5
+Sit while you take 1 step back and return,2
+Sit while you take 2 steps back and return,4
 Sit for 10 seconds,10
-Sit while you take 1 step to the right and return,3
-Sit while you take 1 step to the left and return,3
+Sit while you take 1 step to the right and return,2
+Sit while you take 1 step to the left and return,2
 Sit for 10 seconds,10
-Sit while you take 2 steps back and return,5
-Sit while you take 2 steps to the right and return,5
+Sit while you take 2 steps back and return,4
+Sit while you take 2 steps to the right and return,4
 Sit for 15 seconds,15
-Sit while you take 2 steps to the left and return,5
+Sit while you take 2 steps to the left and return,4
 Sit while you clap your hands softly once,3
-Sit while you take 3 steps back and return,7
-Sit while you count out loud to 10,7
-Sit while you clap your hands softly once,3
-Sit while you count out loud to 20,15
-Sit while you take 3 steps to the right and return,8
+Sit while you take 3 steps back and return,6
+Sit while you count out loud to 10,10
+Sit while you clap your hands softly once,2
+Sit while you count out loud to 20,20
+Sit while you take 3 steps to the right and return,6
 Sit while you clap your hands softly twice,4
 Sit for 3 seconds,3
 Sit for 5 seconds,5
-Sit while you take 1 step back and return,3
+Sit while you take 1 step back and return,2
 Sit for 3 seconds,3
 Sit for 10 seconds,10
 Sit for 5 seconds,5
