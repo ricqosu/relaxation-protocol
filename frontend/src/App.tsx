@@ -10,6 +10,7 @@ const App = () => {
 
   const handleTasksFetch = (fetchedTasks: TaskItem[]) => {
     setTasks(fetchedTasks);
+    setLoading(false)
   };
 
   const handleLoadingState = () => {

@@ -7,6 +7,7 @@ import {
   ButtonGroup,
   Center,
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 import TaskItem from '../interfaces/TaskItem';
 
 interface TasksProps {
@@ -15,8 +16,15 @@ interface TasksProps {
 
 const Tasks: React.FC<TasksProps> = ({ tasks }) => {
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(tasks[0]?.duration);
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+
+  useEffect(() => {
+    setCurrentTaskIndex(0)
+    setTimeRemaining(tasks[0]?.duration)
+    setIsPlaying(false)
+  }, [tasks])
 
   // Kicks off countdown based on each task's duration
   useEffect(() => {
@@ -30,7 +38,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
             setCurrentTaskIndex((prevIndex) =>
               prevIndex < tasks.length - 1 ? prevIndex + 1 : prevIndex
             );
-            return tasks[currentTaskIndex]?.duration;
+            return tasks[currentTaskIndex + 1]?.duration;
           }
           return prevTime - 1;
         });
@@ -65,6 +73,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
   const handleRestart = () => {
     if (currentTaskIndex > 0) {
       setCurrentTaskIndex(0);
+      setTimeRemaining(tasks[0]?.duration);
     }
   };
 
@@ -75,19 +84,26 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
           Task {currentTaskIndex + 1} out of {tasks.length - 1}:
         </Heading>
       </Box>
-      <Center maxW='xl' h='400px' borderRadius='1px' textAlign='center'>
-        {tasks.length > 0 ? (
-          <Heading as="h1" size="4xl">
-            {tasks[currentTaskIndex]?.task}
-          </Heading>
-        ) : (
-          <p>To view tasks, please select a day</p>
-        )}
+      <Center maxW="xl" h="400px" borderRadius="1px" textAlign="center">
+          {tasks.length > 0 ? (
+            <motion.div
+              key={currentTaskIndex}
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <Heading as="h1" size="4xl">
+                {tasks[currentTaskIndex]?.task}
+              </Heading>
+            </motion.div>
+          ) : (
+            <p>To view tasks, please select a day</p>
+          )}
       </Center>
       <Box>
         <Heading>Duration: {timeRemaining} seconds</Heading>
       </Box>
-      <ButtonGroup mt='150px'>
+      <ButtonGroup mt="150px">
         <Button onClick={handlePrev} disabled={currentTaskIndex === 0}>
           Previous
         </Button>
