@@ -17,13 +17,17 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
 
     if (isPlaying) {
       interval = setInterval(() => {
-        if (currentTaskIndex < tasks.length - 1) {
-          setCurrentTaskIndex((prevIndex) => prevIndex + 1);
-        } else {
-          setIsPlaying(false);
-          clearInterval(interval);
-        }
-      }, tasks[currentTaskIndex]?.duration * 1000);
+        setTimeRemaining((prevTime) => {
+          if (prevTime === 1) {
+            clearInterval(interval);
+            setCurrentTaskIndex((prevIndex) =>
+              prevIndex < tasks.length - 1 ? prevIndex + 1 : prevIndex
+            );
+            return tasks[currentTaskIndex]?.duration;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
     }
 
     return () => clearInterval(interval);
@@ -40,22 +44,22 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
   const handleNext = () => {
     if (currentTaskIndex < tasks.length - 1) {
       setCurrentTaskIndex((prevIndex) => prevIndex + 1);
-      setTimeRemaining(tasks[currentTaskIndex + 1]?.duration)
+      setTimeRemaining(tasks[currentTaskIndex + 1]?.duration);
     }
   };
 
   const handlePrev = () => {
     if (currentTaskIndex > 0) {
       setCurrentTaskIndex((prevIndex) => prevIndex - 1);
-      setTimeRemaining(tasks[currentTaskIndex - 1]?.duration)
+      setTimeRemaining(tasks[currentTaskIndex - 1]?.duration);
     }
   };
 
   const handleRestart = () => {
     if (currentTaskIndex > 0) {
-      setCurrentTaskIndex(0)
+      setCurrentTaskIndex(0);
     }
-  }
+  };
 
   return (
     <Flex direction="column" alignItems="center">
@@ -64,7 +68,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
           Task {currentTaskIndex + 1} out of {tasks.length - 1}:
         </Heading>
       </Box>
-      <Box maxW='xl' textAlign="center">
+      <Box maxW="xl" textAlign="center">
         {tasks.length > 0 ? (
           <Heading as="h1" size="4xl">
             {tasks[currentTaskIndex]?.task}
@@ -74,7 +78,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
         )}
       </Box>
       <Box>
-        <p>Duration: {tasks[currentTaskIndex]?.duration} seconds</p>
+        <p>Duration: {timeRemaining} seconds</p>
       </Box>
       <ButtonGroup>
         <Button onClick={handlePrev} disabled={currentTaskIndex === 0}>
