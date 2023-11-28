@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, Button, Flex, ButtonGroup } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Button,
+  Flex,
+  ButtonGroup,
+  Center,
+} from '@chakra-ui/react';
 import TaskItem from '../interfaces/TaskItem';
 
 interface TasksProps {
@@ -63,12 +70,12 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
 
   return (
     <Flex direction="column" alignItems="center">
-      <Box mt={10}>
+      <Box mt={20}>
         <Heading as="h2" size="xl">
           Task {currentTaskIndex + 1} out of {tasks.length - 1}:
         </Heading>
       </Box>
-      <Box maxW="xl" textAlign="center">
+      <Center maxW='xl' h='400px' borderRadius='1px' textAlign='center'>
         {tasks.length > 0 ? (
           <Heading as="h1" size="4xl">
             {tasks[currentTaskIndex]?.task}
@@ -76,11 +83,11 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
         ) : (
           <p>To view tasks, please select a day</p>
         )}
-      </Box>
+      </Center>
       <Box>
-        <p>Duration: {timeRemaining} seconds</p>
+        <Heading>Duration: {timeRemaining} seconds</Heading>
       </Box>
-      <ButtonGroup>
+      <ButtonGroup mt='150px'>
         <Button onClick={handlePrev} disabled={currentTaskIndex === 0}>
           Previous
         </Button>
