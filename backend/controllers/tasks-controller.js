@@ -18,7 +18,7 @@ const getTasksFromDayNumber = async (req, res) => {
     `,
       [dayNumber]
     );
-    res.json(result);
+    res.json(result.rows);
   } catch (error) {
     return res.status(500).json({ error: 'Internal server error' });
   }
