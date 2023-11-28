@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 import TaskItem from './interfaces/TaskItem';
+import { Box } from '@chakra-ui/react';
 
 const App = () => {
   const [tasks, setTasks] = useState<TaskItem[]>([]);
@@ -21,7 +22,9 @@ const App = () => {
       {loading ? (
         <Tasks tasks={tasks} />
       ) : (
-        <p>Please select a day to load tasks</p>
+        <Box textAlign="center" mt={10}>
+          <p>Please select a day to load tasks</p>
+        </Box>
       )}
     </>
   );

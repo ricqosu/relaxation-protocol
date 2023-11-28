@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Heading, Button } from '@chakra-ui/react';
+import { Box, Heading, Button, Flex, ButtonGroup } from '@chakra-ui/react';
 import TaskItem from '../interfaces/TaskItem';
 
 interface TasksProps {
@@ -9,7 +9,9 @@ interface TasksProps {
 const Tasks: React.FC<TasksProps> = ({ tasks }) => {
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(tasks[0]?.duration);
 
+  // Kicks off countdown based on each task's duration
   useEffect(() => {
     let interval: NodeJS.Timeout;
 
@@ -21,7 +23,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
           setIsPlaying(false);
           clearInterval(interval);
         }
-      }, tasks[currentTaskIndex]?.duration * 1000); // Display task for its duration in seconds
+      }, tasks[currentTaskIndex]?.duration * 1000);
     }
 
     return () => clearInterval(interval);
@@ -38,47 +40,65 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
   const handleNext = () => {
     if (currentTaskIndex < tasks.length - 1) {
       setCurrentTaskIndex((prevIndex) => prevIndex + 1);
+      setTimeRemaining(tasks[currentTaskIndex + 1]?.duration)
     }
   };
 
   const handlePrev = () => {
     if (currentTaskIndex > 0) {
       setCurrentTaskIndex((prevIndex) => prevIndex - 1);
+      setTimeRemaining(tasks[currentTaskIndex - 1]?.duration)
     }
   };
 
+  const handleRestart = () => {
+    if (currentTaskIndex > 0) {
+      setCurrentTaskIndex(0)
+    }
+  }
+
   return (
-    <div>
-      <Box textAlign="center" mt={10}>
+    <Flex direction="column" alignItems="center">
+      <Box mt={10}>
         <Heading as="h2" size="xl">
-          Task:
+          Task {currentTaskIndex + 1} out of {tasks.length - 1}:
         </Heading>
+      </Box>
+      <Box maxW='xl' textAlign="center">
         {tasks.length > 0 ? (
-          <div>
-            <Heading as="h1" size="lg">
-              {tasks[currentTaskIndex]?.task}
-            </Heading>
-            <p>Duration: {tasks[currentTaskIndex]?.duration} seconds</p>
-            {isPlaying ? (
-              <Button onClick={handlePause}>Pause</Button>
-            ) : (
-              <Button onClick={handlePlay}>Play</Button>
-            )}
-            <Button onClick={handlePrev} disabled={currentTaskIndex === 0}>
-              Previous
-            </Button>
-            <Button
-              onClick={handleNext}
-              disabled={currentTaskIndex === tasks.length - 1}
-            >
-              Next
-            </Button>
-          </div>
+          <Heading as="h1" size="4xl">
+            {tasks[currentTaskIndex]?.task}
+          </Heading>
         ) : (
           <p>To view tasks, please select a day</p>
         )}
       </Box>
-    </div>
+      <Box>
+        <p>Duration: {tasks[currentTaskIndex]?.duration} seconds</p>
+      </Box>
+      <ButtonGroup>
+        <Button onClick={handlePrev} disabled={currentTaskIndex === 0}>
+          Previous
+        </Button>
+        {isPlaying ? (
+          <Button onClick={handlePause}>Pause</Button>
+        ) : (
+          <Button onClick={handlePlay}>Play</Button>
+        )}
+        <Button
+          onClick={handleNext}
+          disabled={currentTaskIndex < tasks.length - 1}
+        >
+          Next
+        </Button>
+        <Button
+          onClick={handleRestart}
+          disabled={currentTaskIndex < tasks.length - 1}
+        >
+          Restart
+        </Button>
+      </ButtonGroup>
+    </Flex>
   );
 };
 

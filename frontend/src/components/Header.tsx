@@ -43,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ onTasksFetch, onLoading }) => {
   };
 
   return (
-    <Box bg="#C6F6D5" p={3}>
+    <Box bg="teal.100" p={3}>
       <Flex justifyContent="space-between" alignItems="center">
         <Heading as="h1" size="xl" color="black">
           RelaxMyPup
