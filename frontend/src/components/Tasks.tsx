@@ -59,6 +59,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
     if (currentTaskIndex < tasks.length - 1) {
       setCurrentTaskIndex((prevIndex) => prevIndex + 1);
       setTimeRemaining(tasks[currentTaskIndex + 1]?.duration);
+      handlePause();
     }
   };
 
@@ -66,6 +67,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
     if (currentTaskIndex > 0) {
       setCurrentTaskIndex((prevIndex) => prevIndex - 1);
       setTimeRemaining(tasks[currentTaskIndex - 1]?.duration);
+      handlePause();
     }
   };
 
@@ -73,6 +75,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
     if (currentTaskIndex > 0) {
       setCurrentTaskIndex(0);
       setTimeRemaining(tasks[0]?.duration);
+      handlePause();
     }
   };
 
@@ -100,23 +103,26 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
         )}
       </Center>
       <Box>
-        <Heading maxW='md'>
-          Duration: {' '}
-          { 
+        <Heading maxW="md">
+          Time Left:{' '}
+          {
             <motion.span
               key={currentTaskIndex}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 2.5 }}
+              transition={{ duration: 1.1 }}
             >
               {timeRemaining}
             </motion.span>
-          }
-          {' '} seconds
+          }{' '}
+          seconds
         </Heading>
       </Box>
       <ButtonGroup mt="150px">
-        <Button onClick={handlePrev} disabled={currentTaskIndex === 0}>
+        <Button
+          onClick={handlePrev}
+          disabled={currentTaskIndex === 0 || isPlaying}
+        >
           Previous
         </Button>
         {isPlaying ? (
@@ -126,7 +132,7 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
         )}
         <Button
           onClick={handleNext}
-          disabled={currentTaskIndex < tasks.length - 1}
+          disabled={currentTaskIndex < tasks.length - 1 || isPlaying}
         >
           Next
         </Button>
