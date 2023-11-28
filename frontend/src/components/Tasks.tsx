@@ -18,13 +18,12 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
   const [currentTaskIndex, setCurrentTaskIndex] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(tasks[0]?.duration);
   const [isPlaying, setIsPlaying] = useState(false);
-  
 
   useEffect(() => {
-    setCurrentTaskIndex(0)
-    setTimeRemaining(tasks[0]?.duration)
-    setIsPlaying(false)
-  }, [tasks])
+    setCurrentTaskIndex(0);
+    setTimeRemaining(tasks[0]?.duration);
+    setIsPlaying(false);
+  }, [tasks]);
 
   // Kicks off countdown based on each task's duration
   useEffect(() => {
@@ -85,23 +84,36 @@ const Tasks: React.FC<TasksProps> = ({ tasks }) => {
         </Heading>
       </Box>
       <Center maxW="xl" h="400px" borderRadius="1px" textAlign="center">
-          {tasks.length > 0 ? (
-            <motion.div
+        {tasks.length > 0 ? (
+          <motion.div
+            key={currentTaskIndex}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 100, y: 0 }}
+            transition={{ duration: 1.1 }}
+          >
+            <Heading as="h1" size="4xl">
+              {tasks[currentTaskIndex]?.task}
+            </Heading>
+          </motion.div>
+        ) : (
+          <p>To view tasks, please select a day</p>
+        )}
+      </Center>
+      <Box>
+        <Heading maxW='md'>
+          Duration: {' '}
+          { 
+            <motion.span
               key={currentTaskIndex}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 2.5 }}
             >
-              <Heading as="h1" size="4xl">
-                {tasks[currentTaskIndex]?.task}
-              </Heading>
-            </motion.div>
-          ) : (
-            <p>To view tasks, please select a day</p>
-          )}
-      </Center>
-      <Box>
-        <Heading>Duration: {timeRemaining} seconds</Heading>
+              {timeRemaining}
+            </motion.span>
+          }
+          {' '} seconds
+        </Heading>
       </Box>
       <ButtonGroup mt="150px">
         <Button onClick={handlePrev} disabled={currentTaskIndex === 0}>
